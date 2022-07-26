@@ -1,8 +1,7 @@
+class Chain {
+  int chainId;
+  String chainName;
+  String chainSymbol;
 
-class ChainArgs {
-  late String chainId;
-
-  ChainArgs(argsParsed) {
-    chainId = argsParsed['chainId'];
-  }
+  Chain({required this.chainId, required this.chainName, required this.chainSymbol});
 }

@@ -1,7 +1,6 @@
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:dapp_browser_app/models/Chain.dart';
+import 'package:dapp_browser_app/models/ChainArgs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -77,8 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
           });
           logD("web view created");
           controller.addJavaScriptHandler(handlerName: "wallet_switchEthereumChain", callback: (args){
-            ChainArgs chainArgs = ChainArgs(args[0][0]);
-            logD(int.parse(chainArgs.chainId));
+            ChainArgs chainArgs = ChainArgs(args[0][0]['chainId']);
+            logD(int.parse(chainArgs.getChainId));
             return null;
           });
         },
