@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dapp_browser_app/models/Chain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -41,6 +42,11 @@ class _MyHomePageState extends State<MyHomePage> {
     "privateKey": "0x737d71b09722fc356fc5a0dead1deb260627993fc048af957f9e82810277e42a"
   };
 
+  final currentChain = {
+    'chainId': 1,
+    'networkName': 'Ethereum'
+  };
+
   final chainDetails = [
 
   ];
@@ -68,6 +74,12 @@ class _MyHomePageState extends State<MyHomePage> {
           controller.addJavaScriptHandler(handlerName: "eth_requestAccounts", callback: (args){
             logD(args);
             return [ accountDetails['address'] ];
+          });
+          logD("web view created");
+          controller.addJavaScriptHandler(handlerName: "wallet_switchEthereumChain", callback: (args){
+            ChainArgs chainArgs = ChainArgs(args[0][0]);
+            logD(int.parse(chainArgs.chainId));
+            return null;
           });
         },
         onConsoleMessage: (controller, message) {
