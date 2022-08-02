@@ -1,7 +1,8 @@
-class Gas {
-  double gasPrice;
-  double gasLimit;
-  double defaultValue;
+import 'package:flutter_web3/ethers.dart';
 
-  Gas({required this.gasLimit, required this.gasPrice, required this.defaultValue});
+class Gas {
+  BigNumber gasPrice;
+  BigNumber gasLimit;
+
+  Gas({required this.gasLimit, required this.gasPrice});
 }
