@@ -1,3 +1,4 @@
+import 'package:dapp_browser_app/components/AddChain.dart';
 import 'package:dapp_browser_app/components/ChainSwitch.dart';
 import 'package:dapp_browser_app/main.dart';
 import 'package:dapp_browser_app/mocks/ChainData.dart';
@@ -43,5 +44,23 @@ useChainSwitch(context, _controller, currentChain, args) async {
 }
 
 useAddNewChain(context, _controller, args) async {
+  ChainArgs chainArgs = ChainArgs(args[0][0]['chainId']);
+  Uri? title = await _controller.getUrl();
+  logD("Title page: ${title?.origin}");
+  int chainId = int.parse(chainArgs.getChainId);
+  Chain? chain = supportedChains[chainId];
 
+  logD("Chain trying to switch: ${chain?.chainId}");
+
+  if ( chain == null ) {
+    showModalBottomSheet(
+      context: context,
+      builder: (builder) {
+        return AddChain(
+          webTitle: title!.origin,
+          addChain: int.parse(chainArgs.getChainId).toString()
+        );
+      }
+    );
+  }
 }

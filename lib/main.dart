@@ -65,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     logD("web view created");
     _controller.addJavaScriptHandler(handlerName: "wallet_switchEthereumChain", callback: (args) => useChainSwitch(context, _controller, currentChain, args));
+    _controller.addJavaScriptHandler(handlerName: "wallet_addEthereumChain", callback: (args) => useAddNewChain(context, _controller, args));
   }
 
   @override

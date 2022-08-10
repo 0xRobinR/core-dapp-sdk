@@ -18,4 +18,3 @@ Map<int, Chain> supportedChains = {
   56: bnbChain,
   97: bnbTestChain
 };
-
