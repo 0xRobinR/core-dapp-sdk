@@ -1,22 +1,21 @@
 const script = '''
 function ready(callback){
-    // in case the document is already rendered
     if (document.readyState!='loading') callback();
-    // modern browsers
     else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
-    // IE <= 8
     else document.attachEvent('onreadystatechange', function(){
         if (document.readyState=='complete') callback();
     });
 }
 
 ready(function(){
-  // console.log(window)
+  // alert("loaded")
   window.ethereum = {
       request: (payload) => {
           return new Promise((resolve, reject) => {
               if ( window.flutter_inappwebview ) {
                   window.flutter_inappwebview.callHandler(payload.method, payload.params).then(function(result) {
+                      console.log(payload.method)
+                      console.log(result)
                       if ( result.success ) {
                           resolve(result.data);
                       } else {
@@ -28,6 +27,7 @@ ready(function(){
               }
           })
       }
-  };   
+  };
+  window.ethereum.request({method: "eth_chainId"}).then((res) => console.log(res))
 });
 ''';

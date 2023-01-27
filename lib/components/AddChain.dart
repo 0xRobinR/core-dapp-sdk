@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 class AddChain extends StatelessWidget {
   final String addChain;
   final String webTitle;
+  final Function() onAccept;
+  final Function() onReject;
 
   const AddChain(
-      {
-        Key? key,
-        required this.addChain, required this.webTitle
-      }
-      ) : super(key: key);
+      {Key? key,
+      required this.addChain,
+      required this.webTitle,
+      required this.onAccept,
+      required this.onReject})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +25,9 @@ class AddChain extends StatelessWidget {
           Text("$webTitle App has requested to add chain $addChain"),
           Row(
             children: [
+              ElevatedButton(onPressed: onReject, child: const Text("Cancel")),
               ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Cancel")
-              ),
-              ElevatedButton(
-                  onPressed: () {},
-                  child: const Text("Add Network")
-              ),
+                  onPressed: onAccept, child: const Text("Add Network")),
             ],
           )
         ],
