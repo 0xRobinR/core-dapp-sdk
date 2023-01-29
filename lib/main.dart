@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'core dApp browser'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -83,7 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller.addJavaScriptHandler(
         handlerName: "eth_chainId",
         callback: (args) {
-          return {"success": true, "error": false, "data": 56};
+          return {
+            "success": true,
+            "error": false,
+            "data":
+                "0x${(chainController.getChain().chainId.toRadixString(16))}"
+          };
         });
     _controller.addJavaScriptHandler(
         handlerName: "eth_accounts",
@@ -162,15 +168,19 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  String uri =
-      // "https://pancakeswap.finance";
-  "https://360coreinc.com/testdapp/mywebpage.html?updated=${(DateTime.now().millisecondsSinceEpoch / 1000)}";
+  String uri = "https://pancakeswap.finance";
+  // "https://360coreinc.com/testdapp/mywebpage.html?updated=${(DateTime.now().millisecondsSinceEpoch / 1000)}";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        leading: GetBuilder<ChainController>(
+          builder: (con) {
+            return Text("${con.getChain().chainId}");
+          },
+        ),
         actions: [
           ElevatedButton.icon(
               onPressed: reloadPage,

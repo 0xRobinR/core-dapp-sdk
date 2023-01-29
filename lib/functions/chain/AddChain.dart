@@ -16,10 +16,10 @@ handleAddChain(
   ChainArgs chainArgs = ChainArgs(args?[0][0]['chainId']);
   Uri? title = await controller.getUrl();
   logD("Title page: ${title?.origin}");
-  int chainId = int.parse(chainArgs.getChainId);
-  Map<int, Chain?> _supportedChains =
+
+  Map<String, Chain?> _supportedChains =
       await chainController.getSupportedChains();
-  Chain? chain = _supportedChains[chainId];
+  Chain? chain = _supportedChains[int.parse(chainArgs.getChainId).toString()];
 
   logD("Chain trying to switch: ${chain?.chainId}");
   logD("args ${args?[0][0]}");
@@ -48,7 +48,7 @@ handleAddChain(
       return buildSuccess(data: true);
     } else {
       return buildError(
-          code: -11001, message: "Adding request was declined by the user");
+          code: 4001, message: "Adding request was declined by the user");
     }
   }
 }

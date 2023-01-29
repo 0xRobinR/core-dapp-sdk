@@ -19,9 +19,15 @@ handleChainSwitch(
   Uri? title = await controller.getUrl();
   logD("Title page: ${title?.origin}");
   int chainId = int.parse(chainArgs.getChainId);
-  Map<int, Chain?> _supportedChains =
+  Map<String, Chain?> _supportedChains =
       await chainController.getSupportedChains();
-  Chain? chain = _supportedChains[chainId];
+  Chain? chain = _supportedChains[chainId.toString()];
+
+  if (chainId == currentChain.chainId) {
+    Get.snackbar("Chain", "Already connected to chain id $chainId",
+        snackPosition: SnackPosition.BOTTOM);
+    return buildSuccess(data: true);
+  }
 
   logD("Chain trying to switch: ${chain?.chainId}");
 
@@ -32,16 +38,30 @@ handleChainSwitch(
             "Unrecognized chain ID $chainId. Try adding the chain using wallet_addEthereumChain first.");
   }
 
-  await showModalBottomSheet(
+  bool response = await showModalBottomSheet(
       context: context,
       builder: (builder) {
         return ChainSwitch(
-            currentChain: currentChain.chainName,
-            webTitle: title!.origin,
-            switchChain: int.parse(chainArgs.getChainId).toString());
+          currentChain: currentChain.chainName,
+          webTitle: title!.origin,
+          switchChain: int.parse(chainArgs.getChainId).toString(),
+          onAccept: () {
+            Navigator.pop(context, true);
+          },
+          onReject: () {
+            Navigator.pop(context, false);
+          },
+        );
       });
-  return buildError(
-      code: 4902,
-      message:
-          "Unable to switch network to ${int.parse(chainArgs.getChainId)}");
+  if (response) {
+    logD("Changing chain");
+    await chainController.setChain(chain);
+    return buildSuccess(data: true);
+  } else {
+    logD("error");
+    return buildError(
+        code: 4001,
+        message:
+            "Unable to switch network to ${int.parse(chainArgs.getChainId)}");
+  }
 }

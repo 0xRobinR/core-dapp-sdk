@@ -4,14 +4,17 @@ class ChainSwitch extends StatelessWidget {
   final String currentChain;
   final String switchChain;
   final String webTitle;
+  final VoidCallback onAccept;
+  final VoidCallback onReject;
 
   const ChainSwitch(
-    {
-      Key? key,
+      {Key? key,
       required this.currentChain,
-      required this.switchChain, required this.webTitle
-    }
-  ) : super(key: key);
+      required this.switchChain,
+      required this.webTitle,
+      required this.onAccept,
+      required this.onReject})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +24,12 @@ class ChainSwitch extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text("Chain Switch Request"),
-          Text("$webTitle App has requested chain switch from $currentChain to $switchChain"),
+          Text(
+              "$webTitle App has requested chain switch from $currentChain to $switchChain"),
           Row(
             children: [
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text("Cancel")
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text("Switch")
-              ),
+              ElevatedButton(onPressed: onReject, child: const Text("Cancel")),
+              ElevatedButton(onPressed: onAccept, child: const Text("Switch")),
             ],
           )
         ],

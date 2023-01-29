@@ -18,7 +18,7 @@ class Chain {
 
   static Chain fromJson(json) {
     return Chain(
-      chainId: int.parse(json['chainId']),
+      chainId: int.parse(json['chainId'].toString()),
       chainName: json['chainName'],
       nativeCurrency: Currency.fromJson(json['nativeCurrency']),
     );

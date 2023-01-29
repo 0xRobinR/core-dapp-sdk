@@ -10,6 +10,8 @@ class Currency {
   static Currency fromJson(json) {
     logD(json);
     return Currency(
-        name: json['name'], decimals: json['decimals'], symbol: json['symbol']);
+        name: json['name'],
+        decimals: int.parse(json['decimals'].toString()),
+        symbol: json['symbol']);
   }
 }
