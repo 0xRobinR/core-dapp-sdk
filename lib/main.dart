@@ -192,7 +192,6 @@ class _MyHomePageState extends State<MyHomePage> {
         initialUrlRequest: URLRequest(url: Uri.parse(uri)),
         initialUserScripts: UnmodifiableListView<UserScript>([]),
         onWebViewCreated: (controller) {
-          log("webview created");
           controller.addUserScript(
               userScript: UserScript(
                   source: script,
